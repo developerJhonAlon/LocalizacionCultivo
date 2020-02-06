@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet name="estilos.css" library="css" />
+        <title>Super de Compañias</title>
+    </h:head>
+    <h:body>
+        <header style="border: 1px solid green; border-radius: 6px; text-align: center">
+            <h1>MSR</h1>
+            <h2>Administración de producción</h2>
+        </header>
+        <h:form id="formPrincipal">
+            <div id="contenido-central" style="margin: 10px 30px 10px 0">
+                <h:panelGrid columns="2" style="width: 100%; height: 500px;" columnClasses="menu,alineadosuperior">
+                
+                <h:panelGrid id="panelMenu" columns="1" style="border: 1px solid green; border-radius: 6px; padding: 20px">
+                   
+                    <p:panelMenu style="width: 200px">
+                        <p:submenu label="Clientes">
+                             <p:menuitem value="Agricultor" action="/catalogos/agricultor" icon="ui-icon-disk"></p:menuitem>
+                       
+                        </p:submenu>
+                         
+                            <p:submenu label="Clientes">
+                                  <p:menuitem value="Cultivo" action="/catalogos/cultivo" icon="ui-icon-disk"></p:menuitem>
+                        
+                            </p:submenu>
+                       
+                          
+                            
+                    </p:panelMenu>
+                  
+                </h:panelGrid> 
+                
+                    <p:panel id="panelCentral" style="border: hidden">
+                    <ui:insert name="contenido">
+                        Bienvenido
+                    </ui:insert>
+                </p:panel>
+                    
+            </h:panelGrid>
+            
+        </div>
+        </h:form>
+        <footer style="text-align: center; border: 1px solid green; border-radius: 6px; padding: 10px 0 10px 0">
+            <h:outputText value="ESPE"></h:outputText>
+        </footer>
+
+    </h:body>
+</html>
+
