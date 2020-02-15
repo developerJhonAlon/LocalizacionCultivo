@@ -22,5 +22,5 @@ public interface AgricultorDAO {
     
     public void eliminarAgricultor(AgricultorDTO agricultor);
     
-    
+    public List<AgricultorDTO> findByName(String nombres);
 }

@@ -62,7 +62,23 @@ public class AgricultorDAOImpl implements AgricultorDAO {
         
     }
           
-       
+    @Override   
+    public List<AgricultorDTO> findByName(String nombres){
+        StringBuilder sb = new StringBuilder("SELECT a FROM AgricultorDTO a WHERE");
+        if(nombres.isEmpty()){
+            sb.append(" a.agrCodigo < 100 ");
+        }else{
+            sb.append(" CONCAT(a.agrNombre,' ',a.agrApellido) like :nombres");
+        }
+        sb.append(" ORDER BY a.agrNombre ASC, a.agrApellido ASC");
+        Query result = em.createQuery(sb.toString());
+        //Parametros
+        if(!nombres.isEmpty()){
+            result.setParameter("nombres","%"+nombres.toUpperCase()+"%");
+        }
+        return result.getResultList();
+        
+    }
         
     
     

@@ -21,4 +21,6 @@ public interface AgricultorServicio {
     public boolean transUpdateAgricultor(AgricultorDTO agricultor);
     
     public void transEliminarAgricultor(AgricultorDTO agricultor);
+    
+    public List<AgricultorDTO> transFindByName(String nombres);
 }

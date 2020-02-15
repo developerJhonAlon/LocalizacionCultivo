@@ -41,4 +41,9 @@ public class AgricultorServicioImpl implements AgricultorServicio{
     public void transEliminarAgricultor(AgricultorDTO agricultor){
         agricultorDAO.eliminarAgricultor(agricultor);
     }
+    
+    @Override
+    public List<AgricultorDTO> transFindByName(String nombres){
+        return agricultorDAO.findByName(nombres);
+    }
 }

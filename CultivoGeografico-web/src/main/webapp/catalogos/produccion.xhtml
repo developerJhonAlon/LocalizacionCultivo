@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>
+        <ui:composition template="/index.xhtml">
+            <ui:define name="contenido">
+
+                <p:panel id="panelProduccion" style="border: hidden; margin-left: 20px;">
+
+
+                    <h:panelGrid id="panelEdicionProduccion" columns="1" style="width: 100%; margin-bottom: 10px">
+
+                        <h:panelGrid columns="2" rendered="#{produccionController.produccionSelected==null}" >
+
+                            <p:commandButton value="Agregar" icon="ui-icon-plus"
+                                             update=":formPrincipal:panelEdicionProduccion"
+                                             actionListener="#{produccionController.nuevoProduccion()}">
+
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" cellspacing="5" style="width: 100%"
+                                     rendered="#{produccionController.produccionSelected != null}">
+                            <p:fieldset legend="#{produccionController.produccionSelected.agrCodigo==null ? 'NUEVA PRODUCCION':'EDITAR PRODUCCION'}">
+
+                                <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-top: 10px; margin-bottom: 10px">
+                                    <p:commandButton id="btnProduccion" value="Grabar" icon="ui-icon-plus"
+                                                     update=":formPrincipal:panelProduccion, :formPrincipal:message1"
+                                                     action="#{produccionController.grabarProduccion()}">
+
+                                    </p:commandButton>
+                                    <p:commandButton value="Cancelar" icon="ui-icon-arrowreturnthick-1-w"
+                                                     process="@this"
+                                                     update=":formPrincipal:panelProduccion"
+                                                     action="#{produccionController.cancelarEdicionProduccion(true)}">
+
+                                    </p:commandButton>
+                                </h:panelGrid>
+
+
+                                <h:panelGrid columns="3" cellpadding="0" cellspacing="0" columnClasses="alineadoSuperior,alineadoSuperior,alineadoSuperior" >
+
+                                    <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-bottom: 10px">
+
+                                        <p:outputLabel for="calFechaProduccion" value="Fecha:" style="font-weight: bold"></p:outputLabel>
+                                        <h:panelGrid columns="2" >
+                                            <p:calendar id="calFechaProduccion" navigator="true" value="#{produccionController.produccionSelected.prodFecha}" yearRange="2015:2030" size="10" locale="es" pattern="dd/MM/yyyy"
+                                                        required="#{not empty param['formPrincipal:btnProduccion']}">
+                                            </p:calendar>
+                                            <p:message for="calFechaProduccion"></p:message>
+                                        </h:panelGrid>
+
+                                        <p:outputLabel for="txtCantidad" value="Cantidad:" style="font-weight: bold"></p:outputLabel>
+                                        <p:inputText id="txtCantidad" value="#{produccionController.produccionSelected.prodCantidad}"></p:inputText>
+
+                                        <p:outputLabel for="txtArea" value="Area:" style="font-weight: bold"></p:outputLabel>
+                                        <p:inputText id="txtArea" value="#{produccionController.produccionSelected.prodArea}"></p:inputText>
+
+
+                                    </h:panelGrid>
+                                    <p:spacer height="1" width="70"></p:spacer>
+                                    <h:panelGrid columns="1" columnClasses="alineadosuperior">
+                                        <h:panelGrid  columns="2">
+                                            <p:outputLabel id="lblBuscarAgricultor" value="* DATOS DEL AGRICULTOR" style="font-size: 14px; font-weight: bold;" />
+                                            <p:message for="lblBuscarAgricultor" ></p:message>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="1" >
+                                            <h:outputText value="(Ingrese apellidos y/o nombres a buscar)" style="font-weight: bold;"/>
+                                            <p:autoComplete minQueryLength="3" value="#{produccionController.nomAgricultorBusqueda}" completeMethod="#{produccionController.completeText}" size="50" required="true" >
+                                                <p:ajax event="itemSelect" listener="#{produccionController.onItemSelect}" update=":formPrincipal:btnProduccion, :formPrincipal:datosAgri"/>
+
+
+                                            </p:autoComplete>                                        
+                                        </h:panelGrid>
+                                        <h:panelGrid id="datosAgri" columns="2" cellpadding="2" >
+                                            <p:outputLabel value="Nombre:" for="lblNombreAgricultor" style="font-weight: bold"/>
+                                            <p:outputLabel id="lblNombreAgricultor" value="#{produccionController.produccionSelected.agrCodigo.agrNombre}" style="width:300px;"/>
+
+                                            <p:outputLabel for="txtApellido" value="Apellido:" style="font-weight: bold"></p:outputLabel>
+                                            <p:outputLabel id="txtApellido" value="#{produccionController.produccionSelected.agrCodigo.agrApellido}"></p:outputLabel>
+
+
+                                            <p:outputLabel for="txtEdad" value="Edad:" style="font-weight: bold"></p:outputLabel>
+                                            <p:outputLabel id="txtEdad" value="#{produccionController.produccionSelected.agrCodigo.agrEdad}"></p:outputLabel>
+
+
+                                            <p:outputLabel for="txtTelefono" value="Telefono:" style="font-weight: bold"></p:outputLabel>
+                                            <p:outputLabel id="txtTelefono" value="#{produccionController.produccionSelected.agrCodigo.agrTelefono}"></p:outputLabel>
+
+
+                                            <p:outputLabel for="txtTipo" value="Tipo:" style="font-weight: bold"></p:outputLabel>
+                                            <p:outputLabel id="txtTipo" value="#{produccionController.produccionSelected.agrCodigo.agrTipoAgricultor}"></p:outputLabel>
+
+
+                                            <p:outputLabel for="txtParticipacion" value="Participación:" style="font-weight: bold"></p:outputLabel>
+                                            <p:outputLabel id="txtParticipacion" value="#{produccionController.produccionSelected.agrCodigo.agrParticipacion}"></p:outputLabel>
+
+
+                                        </h:panelGrid>
+
+
+                                    </h:panelGrid>
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+                        </h:panelGrid>
+
+
+                    </h:panelGrid>
+
+
+
+
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Producciones:" style="font-weight: bold"></h:outputLabel>
+                        </h:panelGrid>
+                        <p:dataTable value="#{produccionController.producciones}" 
+                                     var="prod" style="font-weight: bold">
+                            <p:column headerText="Nombre Agricultor">
+                                <h:outputText value="#{prod.agrCodigo.agrNombre}"/>
+                            </p:column>
+                            <p:column headerText="Cedula Agricultor">
+                                <h:outputText value="#{prod.agrCodigo.agrCedula}"/>
+                            </p:column>
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{prod.prodFecha}"/>
+                            </p:column>
+                            <p:column headerText="Cantidad">
+                                <h:outputText value="#{prod.prodCantidad}"/>
+                            </p:column>
+                            <p:column headerText="Area">
+                                <h:outputText value="#{prod.prodArea}"/>
+                            </p:column>
+                            <p:column headerText="Editar" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" update=":formPrincipal:panelEdicionProduccion" >
+                                    <f:setPropertyActionListener value="#{prod}" target="#{produccionController.produccionSelected}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Eliminar" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash"  update=":formPrincipal:panelProduccion, :formPrincipal:message1" action="#{produccionController.eliminarProduccion()}"
+                                                 process="@this" >
+                                    <f:setPropertyActionListener value="#{prod}" target="#{produccionController.produccionSelected}"/>
+                                    <p:confirm header="Confirmación" message="Confirma que desea eliminar la producción seleccionado?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+
+
