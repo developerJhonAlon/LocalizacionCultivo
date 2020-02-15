@@ -11,12 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,31 +29,33 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "parroquia")
 @XmlRootElement
-public class Parroquia implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "ParroquiaDTO.findAll", query = "SELECT p FROM ParroquiaDTO p")})
+public class ParroquiaDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "PAR_CODIGO")
-    private Short parCodigo;
+    private Integer parCodigo;
     @Size(max = 50)
     @Column(name = "PAR_NOMBRE")
     private String parNombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parCodigo")
-    private List<Barrio> barrioList;
+    private List<BarrioDTO> barrioDTOList;
 
-    public Parroquia() {
+    public ParroquiaDTO() {
     }
 
-    public Parroquia(Short parCodigo) {
+    public ParroquiaDTO(Integer parCodigo) {
         this.parCodigo = parCodigo;
     }
 
-    public Short getParCodigo() {
+    public Integer getParCodigo() {
         return parCodigo;
     }
 
-    public void setParCodigo(Short parCodigo) {
+    public void setParCodigo(Integer parCodigo) {
         this.parCodigo = parCodigo;
     }
 
@@ -65,12 +68,12 @@ public class Parroquia implements Serializable {
     }
 
     @XmlTransient
-    public List<Barrio> getBarrioList() {
-        return barrioList;
+    public List<BarrioDTO> getBarrioDTOList() {
+        return barrioDTOList;
     }
 
-    public void setBarrioList(List<Barrio> barrioList) {
-        this.barrioList = barrioList;
+    public void setBarrioDTOList(List<BarrioDTO> barrioDTOList) {
+        this.barrioDTOList = barrioDTOList;
     }
 
     @Override
@@ -83,10 +86,10 @@ public class Parroquia implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Parroquia)) {
+        if (!(object instanceof ParroquiaDTO)) {
             return false;
         }
-        Parroquia other = (Parroquia) object;
+        ParroquiaDTO other = (ParroquiaDTO) object;
         if ((this.parCodigo == null && other.parCodigo != null) || (this.parCodigo != null && !this.parCodigo.equals(other.parCodigo))) {
             return false;
         }
@@ -95,7 +98,7 @@ public class Parroquia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.msr.cultivo.dto.Parroquia[ parCodigo=" + parCodigo + " ]";
+        return "com.msr.cultivo.dto.ParroquiaDTO[ parCodigo=" + parCodigo + " ]";
     }
     
 }

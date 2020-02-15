@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -30,13 +31,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "barrio")
 @XmlRootElement
-public class Barrio implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "BarrioDTO.findAll", query = "SELECT b FROM BarrioDTO b")})
+public class BarrioDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "BAR_CODIGO")
-    private Short barCodigo;
+    private Integer barCodigo;
     @Size(max = 50)
     @Column(name = "BAR_NOMBRE")
     private String barNombre;
@@ -48,22 +51,22 @@ public class Barrio implements Serializable {
     private String barLongitud;
     @JoinColumn(name = "PAR_CODIGO", referencedColumnName = "PAR_CODIGO")
     @ManyToOne(optional = false)
-    private Parroquia parCodigo;
+    private ParroquiaDTO parCodigo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "barCodigo")
-    private List<Produccion> produccionList;
+    private List<ProduccionDTO> produccionDTOList;
 
-    public Barrio() {
+    public BarrioDTO() {
     }
 
-    public Barrio(Short barCodigo) {
+    public BarrioDTO(Integer barCodigo) {
         this.barCodigo = barCodigo;
     }
 
-    public Short getBarCodigo() {
+    public Integer getBarCodigo() {
         return barCodigo;
     }
 
-    public void setBarCodigo(Short barCodigo) {
+    public void setBarCodigo(Integer barCodigo) {
         this.barCodigo = barCodigo;
     }
 
@@ -91,21 +94,21 @@ public class Barrio implements Serializable {
         this.barLongitud = barLongitud;
     }
 
-    public Parroquia getParCodigo() {
+    public ParroquiaDTO getParCodigo() {
         return parCodigo;
     }
 
-    public void setParCodigo(Parroquia parCodigo) {
+    public void setParCodigo(ParroquiaDTO parCodigo) {
         this.parCodigo = parCodigo;
     }
 
     @XmlTransient
-    public List<Produccion> getProduccionList() {
-        return produccionList;
+    public List<ProduccionDTO> getProduccionDTOList() {
+        return produccionDTOList;
     }
 
-    public void setProduccionList(List<Produccion> produccionList) {
-        this.produccionList = produccionList;
+    public void setProduccionDTOList(List<ProduccionDTO> produccionDTOList) {
+        this.produccionDTOList = produccionDTOList;
     }
 
     @Override
@@ -118,10 +121,10 @@ public class Barrio implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Barrio)) {
+        if (!(object instanceof BarrioDTO)) {
             return false;
         }
-        Barrio other = (Barrio) object;
+        BarrioDTO other = (BarrioDTO) object;
         if ((this.barCodigo == null && other.barCodigo != null) || (this.barCodigo != null && !this.barCodigo.equals(other.barCodigo))) {
             return false;
         }
@@ -130,7 +133,7 @@ public class Barrio implements Serializable {
 
     @Override
     public String toString() {
-        return "com.msr.cultivo.dto.Barrio[ barCodigo=" + barCodigo + " ]";
+        return "com.msr.cultivo.dto.BarrioDTO[ barCodigo=" + barCodigo + " ]";
     }
     
 }

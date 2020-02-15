@@ -9,6 +9,8 @@ import com.msr.cultivo.dto.AgricultorDTO;
 import com.msr.cultivo.servicio.AgricultorServicio;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -68,12 +70,17 @@ public class AgricultorController implements Serializable {
     }
 
     public void grabarAgricultor() {
-        boolean resultado = true;
-        if (agricultorSelected.getAgrCodigo() == null) {
+        boolean resultado;
+        if (agricultorSelected.getAgrCodigo()== null) {
             resultado = agricultorServicio.transGuardarAgricultor(agricultorSelected);
         } else {
             resultado = agricultorServicio.transUpdateAgricultor(agricultorSelected);
         }
+        if(resultado){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }            
         cancelarEdicionAgricultor(true);
     }
 
@@ -89,6 +96,7 @@ public class AgricultorController implements Serializable {
         try {
             agricultorServicio.transEliminarAgricultor(agricultorSelected);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+            Logger.getLogger(AgricultorController.class.getName()).log(Level.INFO, null, "El registro ha sido eliminado exitosamente");
         } catch (Exception ex) {
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));

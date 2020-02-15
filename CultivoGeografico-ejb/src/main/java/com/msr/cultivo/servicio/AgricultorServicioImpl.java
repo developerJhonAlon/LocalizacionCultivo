@@ -23,6 +23,7 @@ public class AgricultorServicioImpl implements AgricultorServicio{
     
     @Override
     public boolean transGuardarAgricultor(AgricultorDTO agricultor) {
+        
         return agricultorDAO.insertarAgricultor(agricultor);
     }
 

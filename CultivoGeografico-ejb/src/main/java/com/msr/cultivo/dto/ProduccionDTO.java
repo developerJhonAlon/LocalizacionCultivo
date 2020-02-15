@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,13 +29,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "produccion")
 @XmlRootElement
-public class Produccion implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "ProduccionDTO.findAll", query = "SELECT p FROM ProduccionDTO p")})
+public class ProduccionDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "PROD_CODIGO")
-    private Short prodCodigo;
+    private Integer prodCodigo;
     @Column(name = "PROD_FECHA")
     @Temporal(TemporalType.DATE)
     private Date prodFecha;
@@ -44,26 +47,26 @@ public class Produccion implements Serializable {
     private Integer prodArea;
     @JoinColumn(name = "CUL_CODIGO", referencedColumnName = "CUL_CODIGO")
     @ManyToOne(optional = false)
-    private Cultivo culCodigo;
+    private CultivoDTO culCodigo;
     @JoinColumn(name = "AGR_CODIGO", referencedColumnName = "AGR_CODIGO")
     @ManyToOne(optional = false)
     private AgricultorDTO agrCodigo;
     @JoinColumn(name = "BAR_CODIGO", referencedColumnName = "BAR_CODIGO")
     @ManyToOne(optional = false)
-    private Barrio barCodigo;
+    private BarrioDTO barCodigo;
 
-    public Produccion() {
+    public ProduccionDTO() {
     }
 
-    public Produccion(Short prodCodigo) {
+    public ProduccionDTO(Integer prodCodigo) {
         this.prodCodigo = prodCodigo;
     }
 
-    public Short getProdCodigo() {
+    public Integer getProdCodigo() {
         return prodCodigo;
     }
 
-    public void setProdCodigo(Short prodCodigo) {
+    public void setProdCodigo(Integer prodCodigo) {
         this.prodCodigo = prodCodigo;
     }
 
@@ -91,11 +94,11 @@ public class Produccion implements Serializable {
         this.prodArea = prodArea;
     }
 
-    public Cultivo getCulCodigo() {
+    public CultivoDTO getCulCodigo() {
         return culCodigo;
     }
 
-    public void setCulCodigo(Cultivo culCodigo) {
+    public void setCulCodigo(CultivoDTO culCodigo) {
         this.culCodigo = culCodigo;
     }
 
@@ -107,11 +110,11 @@ public class Produccion implements Serializable {
         this.agrCodigo = agrCodigo;
     }
 
-    public Barrio getBarCodigo() {
+    public BarrioDTO getBarCodigo() {
         return barCodigo;
     }
 
-    public void setBarCodigo(Barrio barCodigo) {
+    public void setBarCodigo(BarrioDTO barCodigo) {
         this.barCodigo = barCodigo;
     }
 
@@ -125,10 +128,10 @@ public class Produccion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Produccion)) {
+        if (!(object instanceof ProduccionDTO)) {
             return false;
         }
-        Produccion other = (Produccion) object;
+        ProduccionDTO other = (ProduccionDTO) object;
         if ((this.prodCodigo == null && other.prodCodigo != null) || (this.prodCodigo != null && !this.prodCodigo.equals(other.prodCodigo))) {
             return false;
         }
@@ -137,7 +140,7 @@ public class Produccion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.msr.cultivo.dto.Produccion[ prodCodigo=" + prodCodigo + " ]";
+        return "com.msr.cultivo.dto.ProduccionDTO[ prodCodigo=" + prodCodigo + " ]";
     }
     
 }

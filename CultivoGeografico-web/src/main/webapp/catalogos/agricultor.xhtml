@@ -30,24 +30,20 @@
 
                                 <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-top: 10px; margin-bottom: 10px">
                                     <p:commandButton id="btnAgricultor" value="Grabar" icon="ui-icon-plus"
-                                                     update=":formPrincipal:panelAgricultor"
-                                                     action="#{agricultorController.grabarAgricultor}"
-                                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                                     update=":formPrincipal:panelAgricultor, :formPrincipal:message1"
+                                                     action="#{agricultorController.grabarAgricultor}">
 
                                     </p:commandButton>
                                     <p:commandButton value="Cancelar" icon="ui-icon-arrowreturnthick-1-w"
                                                      process="@this"
                                                      update=":formPrincipal:panelAgricultor"
-                                                      action="#{agricultorController.cancelarEdicionAgricultor(true)}">
+                                                     action="#{agricultorController.cancelarEdicionAgricultor(true)}">
 
                                     </p:commandButton>
                                 </h:panelGrid>
 
                                 <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-bottom: 10px">
-                                    <p:outputLabel for="txtCodigo" value="Codigo" style="font-weight: bold"></p:outputLabel>
-                                    <p:inputText id="txtCodigo" value="#{agricultorController.agricultorSelected.agrCodigo}"></p:inputText>
-
-
+                                   
                                     <p:outputLabel for="txtCedula" value="Cedula:" style="font-weight: bold"></p:outputLabel>
                                     <p:inputText id="txtCedula" value="#{agricultorController.agricultorSelected.agrCedula}"></p:inputText>
 
@@ -96,8 +92,11 @@
                             <p:column headerText="Nombre">
                                 <h:outputText value="#{agri.agrNombre}"/>
                             </p:column>
-                            <p:column headerText="Genero">
-                                <h:outputText value="#{agri.agrGenero}"/>
+                             <p:column headerText="Apellido">
+                                 <h:outputText value="#{agri.agrApellido}"/>
+                            </p:column>
+                            <p:column headerText="Edad">
+                                <h:outputText value="#{agri.agrEdad}"/>
                             </p:column>
                             <p:column headerText="Telefono">
                                 <h:outputText value="#{agri.agrTelefono}"/>
@@ -108,8 +107,8 @@
                                 </p:commandButton>
                             </p:column>
                             <p:column headerText="Eliminar" style="text-align: center">
-                                <p:commandButton icon="ui-icon-trash"  update=":formPrincipal:panelAgricultor" action="#{agricultorController.eliminarAgricultor}"
-                                                 process="@this"  onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                <p:commandButton icon="ui-icon-trash"  update=":formPrincipal:panelAgricultor, :formPrincipal:message1" action="#{agricultorController.eliminarAgricultor}"
+                                                 process="@this" >
                                     <f:setPropertyActionListener value="#{agri}" target="#{agricultorController.agricultorSelected}"/>
                                     <p:confirm header="Confirmación" message="Confirma que desea eliminar el agricultor seleccionado?" icon="ui-icon-alert" />
                                 </p:commandButton>

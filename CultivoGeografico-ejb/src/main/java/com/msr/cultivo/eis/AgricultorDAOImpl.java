@@ -56,7 +56,10 @@ public class AgricultorDAOImpl implements AgricultorDAO {
     
     @Override
     public void eliminarAgricultor(AgricultorDTO agricultor){
+           
+        agricultor = em.merge(agricultor);
         em.remove(agricultor);
+        
     }
           
        

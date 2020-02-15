@@ -11,12 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,13 +29,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "cultivo")
 @XmlRootElement
-public class Cultivo implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "CultivoDTO.findAll", query = "SELECT c FROM CultivoDTO c")})
+public class CultivoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CUL_CODIGO")
-    private Short culCodigo;
+    private Integer culCodigo;
     @Size(max = 50)
     @Column(name = "CUL_NOMBRE")
     private String culNombre;
@@ -44,20 +47,20 @@ public class Cultivo implements Serializable {
     @Column(name = "CUL_TIEMPOCOSECHA")
     private Integer culTiempocosecha;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "culCodigo")
-    private List<Produccion> produccionList;
+    private List<ProduccionDTO> produccionDTOList;
 
-    public Cultivo() {
+    public CultivoDTO() {
     }
 
-    public Cultivo(Short culCodigo) {
+    public CultivoDTO(Integer culCodigo) {
         this.culCodigo = culCodigo;
     }
 
-    public Short getCulCodigo() {
+    public Integer getCulCodigo() {
         return culCodigo;
     }
 
-    public void setCulCodigo(Short culCodigo) {
+    public void setCulCodigo(Integer culCodigo) {
         this.culCodigo = culCodigo;
     }
 
@@ -86,12 +89,12 @@ public class Cultivo implements Serializable {
     }
 
     @XmlTransient
-    public List<Produccion> getProduccionList() {
-        return produccionList;
+    public List<ProduccionDTO> getProduccionDTOList() {
+        return produccionDTOList;
     }
 
-    public void setProduccionList(List<Produccion> produccionList) {
-        this.produccionList = produccionList;
+    public void setProduccionDTOList(List<ProduccionDTO> produccionDTOList) {
+        this.produccionDTOList = produccionDTOList;
     }
 
     @Override
@@ -104,10 +107,10 @@ public class Cultivo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Cultivo)) {
+        if (!(object instanceof CultivoDTO)) {
             return false;
         }
-        Cultivo other = (Cultivo) object;
+        CultivoDTO other = (CultivoDTO) object;
         if ((this.culCodigo == null && other.culCodigo != null) || (this.culCodigo != null && !this.culCodigo.equals(other.culCodigo))) {
             return false;
         }
@@ -116,7 +119,7 @@ public class Cultivo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.msr.cultivo.dto.Cultivo[ culCodigo=" + culCodigo + " ]";
+        return "com.msr.cultivo.dto.CultivoDTO[ culCodigo=" + culCodigo + " ]";
     }
     
 }

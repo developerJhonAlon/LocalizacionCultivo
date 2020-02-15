@@ -11,12 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,13 +29,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "agricultor")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "AgricultorDTO.findAll", query = "SELECT a FROM AgricultorDTO a")})
 public class AgricultorDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "AGR_CODIGO")
-    private Short agrCodigo;
+    private Integer agrCodigo;
     @Size(max = 11)
     @Column(name = "AGR_CEDULA")
     private String agrCedula;
@@ -45,7 +48,7 @@ public class AgricultorDTO implements Serializable {
     @Column(name = "AGR_APELLIDO")
     private String agrApellido;
     @Column(name = "AGR_EDAD")
-    private Short agrEdad;
+    private Integer agrEdad;
     @Size(max = 11)
     @Column(name = "AGR_TELEFONO")
     private String agrTelefono;
@@ -59,20 +62,20 @@ public class AgricultorDTO implements Serializable {
     @Column(name = "AGR_PARTICIPACION")
     private String agrParticipacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "agrCodigo")
-    private List<Produccion> produccionList;
+    private List<ProduccionDTO> produccionDTOList;
 
     public AgricultorDTO() {
     }
 
-    public AgricultorDTO(Short agrCodigo) {
+    public AgricultorDTO(Integer agrCodigo) {
         this.agrCodigo = agrCodigo;
     }
 
-    public Short getAgrCodigo() {
+    public Integer getAgrCodigo() {
         return agrCodigo;
     }
 
-    public void setAgrCodigo(Short agrCodigo) {
+    public void setAgrCodigo(Integer agrCodigo) {
         this.agrCodigo = agrCodigo;
     }
 
@@ -100,11 +103,11 @@ public class AgricultorDTO implements Serializable {
         this.agrApellido = agrApellido;
     }
 
-    public Short getAgrEdad() {
+    public Integer getAgrEdad() {
         return agrEdad;
     }
 
-    public void setAgrEdad(Short agrEdad) {
+    public void setAgrEdad(Integer agrEdad) {
         this.agrEdad = agrEdad;
     }
 
@@ -141,12 +144,12 @@ public class AgricultorDTO implements Serializable {
     }
 
     @XmlTransient
-    public List<Produccion> getProduccionList() {
-        return produccionList;
+    public List<ProduccionDTO> getProduccionDTOList() {
+        return produccionDTOList;
     }
 
-    public void setProduccionList(List<Produccion> produccionList) {
-        this.produccionList = produccionList;
+    public void setProduccionDTOList(List<ProduccionDTO> produccionDTOList) {
+        this.produccionDTOList = produccionDTOList;
     }
 
     @Override
@@ -171,7 +174,7 @@ public class AgricultorDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "com.msr.cultivo.dto.Agricultor[ agrCodigo=" + agrCodigo + " ]";
+        return "com.msr.cultivo.dto.AgricultorDTO[ agrCodigo=" + agrCodigo + " ]";
     }
     
 }

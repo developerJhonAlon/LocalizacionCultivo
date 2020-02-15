@@ -15,37 +15,44 @@
             <h2>Administración de producción</h2>
         </header>
         <h:form id="formPrincipal">
+            <p:growl id="message1" widgetVar="message1" showDetail="true" life="3000"></p:growl>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <center>
+                    <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </center>
+            </p:confirmDialog>
             <div id="contenido-central" style="margin: 10px 30px 10px 0">
                 <h:panelGrid columns="2" style="width: 100%; height: 500px;" columnClasses="menu,alineadosuperior">
-                
-                <h:panelGrid id="panelMenu" columns="1" style="border: 1px solid green; border-radius: 6px; padding: 20px">
-                   
-                    <p:panelMenu style="width: 200px">
-                        <p:submenu label="Clientes">
-                             <p:menuitem value="Agricultor" action="/catalogos/agricultor" icon="ui-icon-disk"></p:menuitem>
-                       
-                        </p:submenu>
-                         
+
+                    <h:panelGrid id="panelMenu" columns="1" style="border: 1px solid green; border-radius: 6px; padding: 20px">
+
+                        <p:panelMenu style="width: 200px">
                             <p:submenu label="Clientes">
-                                  <p:menuitem value="Cultivo" action="/catalogos/cultivo" icon="ui-icon-disk"></p:menuitem>
-                        
+                                <p:menuitem value="Agricultor" action="/catalogos/agricultor" icon="ui-icon-disk"></p:menuitem>
+
                             </p:submenu>
-                       
-                          
-                            
-                    </p:panelMenu>
-                  
-                </h:panelGrid> 
-                
+
+                            <p:submenu label="Clientes">
+                                <p:menuitem value="Cultivo" action="/catalogos/cultivo" icon="ui-icon-disk"></p:menuitem>
+
+                            </p:submenu>
+
+
+
+                        </p:panelMenu>
+
+                    </h:panelGrid> 
+
                     <p:panel id="panelCentral" style="border: hidden">
-                    <ui:insert name="contenido">
-                        Bienvenido
-                    </ui:insert>
-                </p:panel>
-                    
-            </h:panelGrid>
-            
-        </div>
+                        <ui:insert name="contenido">
+                            Bienvenido
+                        </ui:insert>
+                    </p:panel>
+
+                </h:panelGrid>
+
+            </div>
         </h:form>
         <footer style="text-align: center; border: 1px solid green; border-radius: 6px; padding: 10px 0 10px 0">
             <h:outputText value="ESPE"></h:outputText>
