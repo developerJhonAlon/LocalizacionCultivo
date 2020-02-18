@@ -6,14 +6,20 @@
 package com.msr.cultivo.controller;
 
 import com.msr.cultivo.dto.AgricultorDTO;
+import com.msr.cultivo.dto.BarrioDTO;
+import com.msr.cultivo.dto.CultivoDTO;
 import com.msr.cultivo.dto.ProduccionDTO;
 import com.msr.cultivo.servicio.AgricultorServicio;
+import com.msr.cultivo.servicio.BarrioServicio;
+import com.msr.cultivo.servicio.CultivoServicio;
 import com.msr.cultivo.servicio.ProduccionServicio;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -27,19 +33,43 @@ import org.primefaces.event.SelectEvent;
  */
 @ManagedBean
 @ViewScoped
-public class ProduccionController {
+public class ProduccionController implements Serializable{
     
-    @Inject
+    @EJB
     private ProduccionServicio produccionServicio;
-    @Inject
+    @EJB
     private AgricultorServicio agricultorServicio;
+    @EJB
+    private BarrioServicio barrioServicio;
+    @EJB
+    private CultivoServicio cultivoServicio;
     
     private List<ProduccionDTO> producciones;
+    private List<CultivoDTO> cultivoList;
+    private List<BarrioDTO> barrioList;
     private ProduccionDTO produccion, produccionSelected;
     private AgricultorDTO agricultorSelected;
     private String nomAgricultorBusqueda;
     
     public ProduccionController(){}
+
+    public List<CultivoDTO> getCultivoList() {
+        return cultivoList;
+    }
+
+    public void setCultivoList(List<CultivoDTO> cultivoList) {
+        this.cultivoList = cultivoList;
+    }
+
+    public List<BarrioDTO> getBarrioList() {
+        return barrioList;
+    }
+
+    public void setBarrioList(List<BarrioDTO> barrioList) {
+        this.barrioList = barrioList;
+    }
+    
+    
 
     public String getNomAgricultorBusqueda() {
         return nomAgricultorBusqueda;
@@ -57,14 +87,7 @@ public class ProduccionController {
         this.agricultorSelected = agricultorSelected;
     }       
 
-    public ProduccionServicio getProduccionServicio() {
-        return produccionServicio;
-    }
-
-    public void setProduccionServicio(ProduccionServicio produccionServicio) {
-        this.produccionServicio = produccionServicio;
-    }
-
+  
     public List<ProduccionDTO> getProducciones() {
         return producciones;
     }
@@ -93,6 +116,8 @@ public class ProduccionController {
     @PostConstruct
     public void init() {
         producciones = produccionServicio.transListarProducciones();
+        cultivoList = cultivoServicio.transListarCultivos();
+        barrioList = barrioServicio.transListarBarrios();
     }
     
     

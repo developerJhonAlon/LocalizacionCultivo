@@ -47,6 +47,33 @@
 
                                     <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-bottom: 10px">
 
+                                        <p:outputLabel value="* Cultivo:" for="selCultivo" style="font-weight: bold"/>
+                                        <h:panelGrid columns="2">
+                                            <p:selectOneMenu id="selCultivo" value="#{produccionController.produccionSelected.culCodigo}"  
+                                                             
+                                                             required="#{not empty param['formPrincipal:btnProduccion']}" 
+                                                             converter="omnifaces.SelectItemsConverter"
+                                                             >
+                                                <f:selectItem itemLabel="-Seleccione un item-" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItems value="#{produccionController.cultivoList}" var="cultivo" itemValue="#{cultivo}" itemLabel="#{cultivo.culNombre}" />
+                                            </p:selectOneMenu>                                                
+                                            <p:message for="selCultivo"></p:message>
+                                        </h:panelGrid>
+                                        
+                                        <p:outputLabel value="* Barrio:" for="selBarrio" style="font-weight: bold"/>
+                                        <h:panelGrid columns="2">
+                                            <p:selectOneMenu id="selBarrio" value="#{produccionController.produccionSelected.barCodigo}"  
+                                                             
+                                                             required="#{not empty param['formPrincipal:btnProduccion']}" 
+                                                             converter="omnifaces.SelectItemsConverter"
+                                                             >
+                                                <f:selectItem itemLabel="-Seleccione un item-" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItems value="#{produccionController.barrioList}" var="barrio" itemValue="#{barrio}" itemLabel="#{barrio.barNombre}" />
+                                            </p:selectOneMenu>                                                
+                                            <p:message for="selBarrio"></p:message>
+                                        </h:panelGrid>
+                                        
+                                        
                                         <p:outputLabel for="calFechaProduccion" value="Fecha:" style="font-weight: bold"></p:outputLabel>
                                         <h:panelGrid columns="2" >
                                             <p:calendar id="calFechaProduccion" navigator="true" value="#{produccionController.produccionSelected.prodFecha}" yearRange="2015:2030" size="10" locale="es" pattern="dd/MM/yyyy"

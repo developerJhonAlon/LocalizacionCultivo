@@ -8,6 +8,7 @@ package com.msr.cultivo.servicio;
 import com.msr.cultivo.dto.ProduccionDTO;
 import com.msr.cultivo.eis.ProduccionDAO;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -18,9 +19,9 @@ import javax.inject.Inject;
 @Stateless
 public class ProduccionServicioImpl implements ProduccionServicio {
 
-    @Inject
+    @EJB
     private ProduccionDAO produccionDAO;
-    
+        
     @Override
     public boolean transGuardarProduccion(ProduccionDTO produccion) {
         return produccionDAO.insertarProduccion(produccion);

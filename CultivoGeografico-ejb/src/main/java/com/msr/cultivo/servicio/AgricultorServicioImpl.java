@@ -8,6 +8,7 @@ package com.msr.cultivo.servicio;
 import com.msr.cultivo.dto.AgricultorDTO;
 import com.msr.cultivo.eis.AgricultorDAO;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -18,15 +19,15 @@ import javax.inject.Inject;
 @Stateless
 public class AgricultorServicioImpl implements AgricultorServicio{
 
-    @Inject
+    @EJB
     private AgricultorDAO agricultorDAO;
-    
+       
     @Override
     public boolean transGuardarAgricultor(AgricultorDTO agricultor) {
         
         return agricultorDAO.insertarAgricultor(agricultor);
     }
-
+    
     @Override
     public List<AgricultorDTO> transListarAgricultores() {
         return agricultorDAO.listarAgricultores();
