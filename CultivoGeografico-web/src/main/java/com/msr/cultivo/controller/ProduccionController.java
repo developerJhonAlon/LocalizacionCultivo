@@ -8,10 +8,12 @@ package com.msr.cultivo.controller;
 import com.msr.cultivo.dto.AgricultorDTO;
 import com.msr.cultivo.dto.BarrioDTO;
 import com.msr.cultivo.dto.CultivoDTO;
+import com.msr.cultivo.dto.DetalleProduccionDTO;
 import com.msr.cultivo.dto.ProduccionDTO;
 import com.msr.cultivo.servicio.AgricultorServicio;
 import com.msr.cultivo.servicio.BarrioServicio;
 import com.msr.cultivo.servicio.CultivoServicio;
+import com.msr.cultivo.servicio.DetalleProduccionServicio;
 import com.msr.cultivo.servicio.ProduccionServicio;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,7 +27,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.ToggleEvent;
 
 /**
  *
@@ -43,13 +47,16 @@ public class ProduccionController implements Serializable{
     private BarrioServicio barrioServicio;
     @EJB
     private CultivoServicio cultivoServicio;
-    
+    @EJB
+    private DetalleProduccionServicio detalleProduccionServicio;
+       
     private List<ProduccionDTO> producciones;
     private List<CultivoDTO> cultivoList;
     private List<BarrioDTO> barrioList;
     private ProduccionDTO produccion, produccionSelected;
-    private AgricultorDTO agricultorSelected;
+    private AgricultorDTO agricultorSelected;    
     private String nomAgricultorBusqueda;
+    private DetalleProduccionDTO detalleProduccionSelected;
     
     public ProduccionController(){}
 
@@ -60,6 +67,15 @@ public class ProduccionController implements Serializable{
     public void setCultivoList(List<CultivoDTO> cultivoList) {
         this.cultivoList = cultivoList;
     }
+
+    public DetalleProduccionDTO getDetalleProduccionSelected() {
+        return detalleProduccionSelected;
+    }
+
+    public void setDetalleProduccionSelected(DetalleProduccionDTO detalleProduccionSelected) {
+        this.detalleProduccionSelected = detalleProduccionSelected;
+    }
+       
 
     public List<BarrioDTO> getBarrioList() {
         return barrioList;
@@ -120,7 +136,7 @@ public class ProduccionController implements Serializable{
         barrioList = barrioServicio.transListarBarrios();
     }
     
-    
+    //Produccion
     public void nuevoProduccion() {
         produccionSelected = new ProduccionDTO();
 
@@ -183,6 +199,56 @@ public class ProduccionController implements Serializable{
             results.add(listaAgricultor1.getAgrNombre() + " " + listaAgricultor1.getAgrApellido());
         }
         return results;
+    }
+    
+    //DetalleProduccion
+      public void grabarDetalleProduccion() {
+        boolean resultado;
+        if (detalleProduccionSelected.getDetCodigo()== null) {
+            detalleProduccionSelected.setProdCodigo(produccionSelected);
+            resultado = detalleProduccionServicio.transGuardarDetalleProduccion(detalleProduccionSelected);
+        } else {
+            resultado = detalleProduccionServicio.transUpdateDetalleProduccion(detalleProduccionSelected);
+        }
+        if(resultado){
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }            
+        cancelarEdicionDetalleProduccion(true);
+    }
+
+
+    public void cancelarEdicionDetalleProduccion(boolean ocultarPanelEdicion) {
+        if (ocultarPanelEdicion) {
+            detalleProduccionSelected = null;
+
+        }
+        //producciones = produccionServicio.transListarProducciones();
+    }
+    
+    public void nuevoDetalleProduccion(){
+        detalleProduccionSelected = new DetalleProduccionDTO();
+        RequestContext.getCurrentInstance().execute("document.getElementById('formPrincipal:calFechaProduccion').focus();");
+        
+    }
+    
+    public void onRowToggleDetalleProduccion(ToggleEvent event) {
+    }
+    
+    public void eliminarDetalleProduccion() {
+        try {
+            detalleProduccionServicio.transEliminarDetalleProduccion(detalleProduccionSelected);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+            Logger.getLogger(ProduccionController.class.getName()).log(Level.INFO, null, "El registro ha sido eliminado exitosamente");
+        } catch (Exception ex) {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        } finally {
+            cancelarEdicionProduccion(true);
+        }
+
     }
 }
 

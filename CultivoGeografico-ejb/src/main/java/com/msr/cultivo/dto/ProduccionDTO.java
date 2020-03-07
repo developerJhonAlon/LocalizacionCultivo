@@ -6,8 +6,9 @@
 package com.msr.cultivo.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +18,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "produccion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProduccionDTO.findAll", query = "SELECT p FROM ProduccionDTO p")})
+    @NamedQuery(name = "ProduccionDTO.findAll", query = "SELECT p FROM ProduccionDTO p"),
+    @NamedQuery(name = "ProduccionDTO.findByProdCodigo", query = "SELECT p FROM ProduccionDTO p WHERE p.prodCodigo = :prodCodigo"),
+    @NamedQuery(name = "ProduccionDTO.findByProdArea", query = "SELECT p FROM ProduccionDTO p WHERE p.prodArea = :prodArea")})
 public class ProduccionDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,13 +41,10 @@ public class ProduccionDTO implements Serializable {
     @Basic(optional = false)
     @Column(name = "PROD_CODIGO")
     private Integer prodCodigo;
-    @Column(name = "PROD_FECHA")
-    @Temporal(TemporalType.DATE)
-    private Date prodFecha;
-    @Column(name = "PROD_CANTIDAD")
-    private Integer prodCantidad;
     @Column(name = "PROD_AREA")
     private Integer prodArea;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prodCodigo")
+    private List<DetalleProduccionDTO> detalleProduccionDTOList;
     @JoinColumn(name = "CUL_CODIGO", referencedColumnName = "CUL_CODIGO")
     @ManyToOne(optional = false)
     private CultivoDTO culCodigo;
@@ -70,28 +70,21 @@ public class ProduccionDTO implements Serializable {
         this.prodCodigo = prodCodigo;
     }
 
-    public Date getProdFecha() {
-        return prodFecha;
-    }
-
-    public void setProdFecha(Date prodFecha) {
-        this.prodFecha = prodFecha;
-    }
-
-    public Integer getProdCantidad() {
-        return prodCantidad;
-    }
-
-    public void setProdCantidad(Integer prodCantidad) {
-        this.prodCantidad = prodCantidad;
-    }
-
     public Integer getProdArea() {
         return prodArea;
     }
 
     public void setProdArea(Integer prodArea) {
         this.prodArea = prodArea;
+    }
+
+    @XmlTransient
+    public List<DetalleProduccionDTO> getDetalleProduccionDTOList() {
+        return detalleProduccionDTOList;
+    }
+
+    public void setDetalleProduccionDTOList(List<DetalleProduccionDTO> detalleProduccionDTOList) {
+        this.detalleProduccionDTOList = detalleProduccionDTOList;
     }
 
     public CultivoDTO getCulCodigo() {

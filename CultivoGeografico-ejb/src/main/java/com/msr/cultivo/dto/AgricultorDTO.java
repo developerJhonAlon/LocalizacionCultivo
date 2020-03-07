@@ -30,7 +30,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "agricultor")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "AgricultorDTO.findAll", query = "SELECT a FROM AgricultorDTO a")})
+    @NamedQuery(name = "AgricultorDTO.findAll", query = "SELECT a FROM AgricultorDTO a"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrCodigo", query = "SELECT a FROM AgricultorDTO a WHERE a.agrCodigo = :agrCodigo"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrCedula", query = "SELECT a FROM AgricultorDTO a WHERE a.agrCedula = :agrCedula"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrNombre", query = "SELECT a FROM AgricultorDTO a WHERE a.agrNombre = :agrNombre"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrApellido", query = "SELECT a FROM AgricultorDTO a WHERE a.agrApellido = :agrApellido"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrEdad", query = "SELECT a FROM AgricultorDTO a WHERE a.agrEdad = :agrEdad"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrTelefono", query = "SELECT a FROM AgricultorDTO a WHERE a.agrTelefono = :agrTelefono"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrGenero", query = "SELECT a FROM AgricultorDTO a WHERE a.agrGenero = :agrGenero"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrTipoAgricultor", query = "SELECT a FROM AgricultorDTO a WHERE a.agrTipoAgricultor = :agrTipoAgricultor"),
+    @NamedQuery(name = "AgricultorDTO.findByAgrParticipacion", query = "SELECT a FROM AgricultorDTO a WHERE a.agrParticipacion = :agrParticipacion")})
 public class AgricultorDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

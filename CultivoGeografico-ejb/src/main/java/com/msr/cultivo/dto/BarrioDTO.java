@@ -32,7 +32,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "barrio")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "BarrioDTO.findAll", query = "SELECT b FROM BarrioDTO b")})
+    @NamedQuery(name = "BarrioDTO.findAll", query = "SELECT b FROM BarrioDTO b"),
+    @NamedQuery(name = "BarrioDTO.findByBarCodigo", query = "SELECT b FROM BarrioDTO b WHERE b.barCodigo = :barCodigo"),
+    @NamedQuery(name = "BarrioDTO.findByBarNombre", query = "SELECT b FROM BarrioDTO b WHERE b.barNombre = :barNombre"),
+    @NamedQuery(name = "BarrioDTO.findByBarLatitud", query = "SELECT b FROM BarrioDTO b WHERE b.barLatitud = :barLatitud"),
+    @NamedQuery(name = "BarrioDTO.findByBarLongitud", query = "SELECT b FROM BarrioDTO b WHERE b.barLongitud = :barLongitud")})
 public class BarrioDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,12 +47,11 @@ public class BarrioDTO implements Serializable {
     @Size(max = 50)
     @Column(name = "BAR_NOMBRE")
     private String barNombre;
-    @Size(max = 10)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "BAR_LATITUD")
-    private String barLatitud;
-    @Size(max = 10)
+    private Float barLatitud;
     @Column(name = "BAR_LONGITUD")
-    private String barLongitud;
+    private Float barLongitud;
     @JoinColumn(name = "PAR_CODIGO", referencedColumnName = "PAR_CODIGO")
     @ManyToOne(optional = false)
     private ParroquiaDTO parCodigo;
@@ -78,19 +81,19 @@ public class BarrioDTO implements Serializable {
         this.barNombre = barNombre;
     }
 
-    public String getBarLatitud() {
+    public Float getBarLatitud() {
         return barLatitud;
     }
 
-    public void setBarLatitud(String barLatitud) {
+    public void setBarLatitud(Float barLatitud) {
         this.barLatitud = barLatitud;
     }
 
-    public String getBarLongitud() {
+    public Float getBarLongitud() {
         return barLongitud;
     }
 
-    public void setBarLongitud(String barLongitud) {
+    public void setBarLongitud(Float barLongitud) {
         this.barLongitud = barLongitud;
     }
 
