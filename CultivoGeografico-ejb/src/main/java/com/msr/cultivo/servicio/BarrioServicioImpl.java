@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 /**
  *
- * @author Jhonny
+ * @author Kleber
  */
 @Stateless
 public class BarrioServicioImpl implements BarrioServicio{
@@ -24,7 +24,22 @@ public class BarrioServicioImpl implements BarrioServicio{
     
     @Override
     public List<BarrioDTO> transListarBarrios() {
-        return barrioDAO.listarBarrios();
+      return barrioDAO.listarBarrios();  
+    }
+
+    @Override
+    public boolean transGuardarBarrio(BarrioDTO barrio) {
+        return barrioDAO.insertarBarrio(barrio);
+    }
+
+    @Override
+    public boolean transUpdateBarrio(BarrioDTO barrio) {
+        return barrioDAO.updateBarrio(barrio);
+    }
+
+    @Override
+    public void transEliminaBarrio(BarrioDTO barrio) {
+        barrioDAO.eliminarBarrio(barrio);
     }
     
 }

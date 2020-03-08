@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>
+        <ui:composition template="/index.xhtml">
+            <ui:define name="contenido">
+
+                <p:panel id="panelBarrio" style="border: hidden; margin-left: 20px;">
+
+
+                    <h:panelGrid id="panelEdicionBarrio" columns="1" style="width: 100%; margin-bottom: 10px">
+
+                        <h:panelGrid columns="2" rendered="#{barrioController.barrioSelected==null}" >
+
+                            <p:commandButton value="Agregar" icon="ui-icon-plus"
+                                             update=":formPrincipal:panelEdicionBarrio"
+                                             actionListener="#{barrioController.nuevoBarrio}">
+
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" cellspacing="5" style="width: 100%"
+                                     rendered="#{barrioController.barrioSelected != null}">
+                            <p:fieldset legend="#{barrioController.barrioSelected.barCodigo==null ? 'NUEVO BARRIO':'EDICION BARRIO'}">
+
+                                <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-top: 10px; margin-bottom: 10px">
+                                    <p:commandButton id="btnBarrio" value="Grabar" icon="ui-icon-plus"
+                                                     update=":formPrincipal:panelBarrio, :formPrincipal:message1"
+                                                     action="#{barrioController.grabarBarrio}">
+
+                                    </p:commandButton>
+                                    <p:commandButton value="Cancelar" icon="ui-icon-arrowreturnthick-1-w"
+                                                     process="@this"
+                                                     update=":formPrincipal:panelBarrio"
+                                                     action="#{barrioController.cancelarEdicionBarrio(true)}">
+
+                                    </p:commandButton>
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-bottom: 10px">
+
+                                    <p:outputLabel for="txtBarrio" value="Nombre Barrio:" style="font-weight: bold"></p:outputLabel>
+                                    <p:inputText id="txtBarrio" value="#{barrioController.barrioSelected.barNombre}"></p:inputText>
+
+                                    <p:outputLabel value="* Parroquia:" for="selBarrio" style="font-weight: bold"/>
+
+                                    <p:selectOneMenu id="selBarrio" value="#{barrioController.barrioSelected.parCodigo}"  
+
+                                                     required="" 
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     >
+                                        <f:selectItem itemLabel="-Seleccione un item-" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{barrioController.parroquiaList}" var="barrio" itemValue="#{barrio}" itemLabel="#{barrio.parNombre}" />
+                                    </p:selectOneMenu>  
+
+                                    <p:outputLabel for="txtLatitud" value="Latitud:" style="font-weight: bold"></p:outputLabel>
+                                    <p:inputText id="txtLatitud" value="#{barrioController.barrioSelected.barLatitud}"></p:inputText>
+
+                                    <p:outputLabel for="txtLongitud" value="Longitud:" style="font-weight: bold"></p:outputLabel>
+                                    <p:inputText id="txtLongitud" value="#{barrioController.barrioSelected.barLongitud}"></p:inputText>
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Barrios:" style="font-weight: bold"></h:outputLabel>
+                        </h:panelGrid>
+                        <p:dataTable value="#{barrioController.barrios}" 
+                                     var="bar" style="font-weight: bold">
+                            <p:column headerText="Barrio">
+                                <h:outputText value="#{bar.barNombre}"/>
+                            </p:column>
+
+                            <p:column headerText="Parroquia">
+                                <h:outputText value="#{bar.parCodigo.parNombre}"/>
+                            </p:column>
+
+                            <p:column headerText="Latitud">
+                                <h:outputText value="#{bar.barLatitud}"/>
+                            </p:column>
+
+                            <p:column headerText="Longitud">
+                                <h:outputText value="#{bar.barLongitud}"/>
+                            </p:column>
+
+                            <p:column headerText="Editar" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" update=":formPrincipal:panelEdicionBarrio" >
+                                    <f:setPropertyActionListener value="#{bar}" target="#{barrioController.barrioSelected}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Eliminar" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash"  update=":formPrincipal:panelBarrio, :formPrincipal:message1" action="#{barrioController.eliminarBarrio()}"
+                                                 process="@this" >
+                                    <f:setPropertyActionListener value="#{bar}" target="#{barrioController.barrioSelected}"/>
+                                    <p:confirm header="Confirmación" message="Confirma que desea eliminar el Barrrio seleccionado?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>

@@ -5,7 +5,7 @@
  */
 package com.msr.cultivo.eis;
 
-import com.msr.cultivo.dto.BarrioDTO;
+import com.msr.cultivo.dto.ParroquiaDTO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,47 +16,49 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Kleber
+ * @author Jhonny
  */
 @Stateless
-public class BarrioDAOImpl implements BarrioDAO {
+public class ParroquiaDAOImpl implements ParroquiaDAO {
 
     @PersistenceContext(unitName = "msrCultivoGeografico-ejb")
     private EntityManager em;
 
     @Override
-    public List<BarrioDTO> listarBarrios() {
-
-        Query qry = em.createQuery("SELECT C FROM BarrioDTO c");
+    public List<ParroquiaDTO> listarParroquias() {
+        Query qry = em.createQuery("SELECT b FROM ParroquiaDTO b");
         return qry.getResultList();
+
     }
 
     @Override
-    public boolean insertarBarrio(BarrioDTO barrio) {
+    public boolean insertarParroquia(ParroquiaDTO parroquia) {
         try {
-            em.persist(barrio);
+            em.persist(parroquia);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(ProduccionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ParroquiaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
 
     @Override
-    public boolean updateBarrio(BarrioDTO barrio) {
+    public boolean updateParroquia(ParroquiaDTO parroquia) {
+
         try {
-            em.merge(barrio);
+            em.merge(parroquia);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(BarrioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ParroquiaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
 
     @Override
-    public void eliminarBarrio(BarrioDTO barrio) {
-        barrio = em.merge(barrio);
-        em.remove(barrio);
+    public void eliminarParroquia(ParroquiaDTO parroquia) {
+        parroquia = em.merge(parroquia);
+        em.remove(parroquia);
+
     }
 
 }

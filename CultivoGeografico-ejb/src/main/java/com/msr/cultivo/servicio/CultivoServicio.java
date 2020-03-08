@@ -15,5 +15,11 @@ import java.util.List;
  */
 public interface CultivoServicio {
     
+    public boolean transGuardarCultivo(CultivoDTO cultivo);
+   
     public List<CultivoDTO> transListarCultivos();
+    
+    public boolean transUpdateCultivos(CultivoDTO cultivo);
+    
+    public void transEliminarCultivos(CultivoDTO cultivo);
 }

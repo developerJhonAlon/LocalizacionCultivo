@@ -10,9 +10,15 @@ import java.util.List;
 
 /**
  *
- * @author Jhonny
+ * @author Kleber
  */
 public interface BarrioDAO {
     
     public List<BarrioDTO> listarBarrios();
+    
+    public boolean insertarBarrio(BarrioDTO barrio);
+    
+    public boolean updateBarrio(BarrioDTO barrio);
+    
+    public void eliminarBarrio(BarrioDTO barrio);
 }

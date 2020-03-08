@@ -10,9 +10,15 @@ import java.util.List;
 
 /**
  *
- * @author Jhonny
+ * @author Kleber
  */
 public interface BarrioServicio {
     
+    public boolean transGuardarBarrio(BarrioDTO barrio);
+    
     public List<BarrioDTO> transListarBarrios();
+    
+    public boolean transUpdateBarrio(BarrioDTO barrio);
+    
+    public void transEliminaBarrio(BarrioDTO barrio);
 }

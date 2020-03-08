@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>
+        <ui:composition template="/index.xhtml">
+            <ui:define name="contenido">
+
+                <p:panel id="panelCultivo" style="border: hidden; margin-left: 20px;">
+
+
+                    <h:panelGrid id="panelEdicionCultivo" columns="1" style="width: 100%; margin-bottom: 10px">
+
+                        <h:panelGrid columns="2" rendered="#{cultivoController.cultivoSelected==null}" >
+
+                            <p:commandButton value="Agregar" icon="ui-icon-plus"
+                                             update=":formPrincipal:panelEdicionCultivo"
+                                             actionListener="#{cultivoController.nuevoCultivo}">
+
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" cellspacing="5" style="width: 100%"
+                                     rendered="#{cultivoController.cultivoSelected != null}">
+                            <p:fieldset legend="#{cultivoController.cultivoSelected.culCodigo==null ? 'NUEVO CULTIVO':'EDICION CULTIVOS'}">
+
+                                <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-top: 10px; margin-bottom: 10px">
+                                    <p:commandButton id="btnParroquia" value="Grabar" icon="ui-icon-plus"
+                                                     update=":formPrincipal:panelCultivo, :formPrincipal:message1"
+                                                     action="#{cultivoController.grabarCultivo}">
+
+                                    </p:commandButton>
+                                    <p:commandButton value="Cancelar" icon="ui-icon-arrowreturnthick-1-w"
+                                                     process="@this"
+                                                     update=":formPrincipal:panelCultivo"
+                                                     action="#{cultivoController.cancelarEdicionCultivo(true)}">
+
+                                    </p:commandButton>
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-bottom: 10px">
+
+                                    <p:outputLabel for="txtNombreCul" value="Nombre Cultivo:" style="font-weight: bold"></p:outputLabel>
+                                    <p:inputText id="txtNombreCul" value="#{cultivoController.cultivoSelected.culNombre}"></p:inputText>
+
+                                    <p:outputLabel for="txtTipoCul" value="Tipo Cultivo:" style="font-weight: bold"></p:outputLabel>
+                                    <p:inputText id="txtTipoCul" value="#{cultivoController.cultivoSelected.culTipo}"></p:inputText>
+
+                                    <p:outputLabel for="txtTiempo" value="Tiempo de Cosecha:" style="font-weight: bold"></p:outputLabel>
+                                    <p:inputText id="txtTiempo" value="#{cultivoController.cultivoSelected.culTiempocosecha}"></p:inputText>
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+                        </h:panelGrid>
+
+
+                    </h:panelGrid>
+
+
+
+
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Cultivos:" style="font-weight: bold"></h:outputLabel>
+                        </h:panelGrid>
+                        <p:dataTable value="#{cultivoController.cultivos}" 
+                                     var="cul" style="font-weight: bold">
+                            <p:column headerText="Tipo Cultivo">
+                                <h:outputText value="#{cul.culTipo}"/>
+                            </p:column>
+
+                            <p:column headerText="Nombre Cultivo">
+                                <h:outputText value="#{cul.culNombre}"/>
+                            </p:column>
+
+                            <p:column headerText="Tiempo de Cosecha">
+                                <h:outputText value="#{cul.culTiempocosecha}"/>
+                            </p:column>
+
+                            <p:column headerText="Editar" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" update=":formPrincipal:panelEdicionCultivo" >
+                                    <f:setPropertyActionListener value="#{cul}" target="#{cultivoController.cultivoSelected}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Eliminar" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash"  update=":formPrincipal:panelCultivo, :formPrincipal:message1" action="#{cultivoController.eliminarCultivo()}"
+                                                 process="@this" >
+                                    <f:setPropertyActionListener value="#{cul}" target="#{cultivoController.cultivoSelected}"/>
+                                    <p:confirm header="Confirmación" message="Confirma que desea eliminar la cultivo seleccionado?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+

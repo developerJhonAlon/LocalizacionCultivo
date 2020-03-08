@@ -54,19 +54,12 @@ public class ProduccionController implements Serializable{
     private List<CultivoDTO> cultivoList;
     private List<BarrioDTO> barrioList;
     private ProduccionDTO produccion, produccionSelected;
+    private DetalleProduccionDTO detalleProduccionSelected;
     private AgricultorDTO agricultorSelected;    
     private String nomAgricultorBusqueda;
-    private DetalleProduccionDTO detalleProduccionSelected;
+   
     
     public ProduccionController(){}
-
-    public List<CultivoDTO> getCultivoList() {
-        return cultivoList;
-    }
-
-    public void setCultivoList(List<CultivoDTO> cultivoList) {
-        this.cultivoList = cultivoList;
-    }
 
     public DetalleProduccionDTO getDetalleProduccionSelected() {
         return detalleProduccionSelected;
@@ -75,8 +68,15 @@ public class ProduccionController implements Serializable{
     public void setDetalleProduccionSelected(DetalleProduccionDTO detalleProduccionSelected) {
         this.detalleProduccionSelected = detalleProduccionSelected;
     }
-       
+    
+    public List<CultivoDTO> getCultivoList() {
+        return cultivoList;
+    }
 
+    public void setCultivoList(List<CultivoDTO> cultivoList) {
+        this.cultivoList = cultivoList;
+    }    
+    
     public List<BarrioDTO> getBarrioList() {
         return barrioList;
     }
@@ -139,7 +139,7 @@ public class ProduccionController implements Serializable{
     //Produccion
     public void nuevoProduccion() {
         produccionSelected = new ProduccionDTO();
-
+        nomAgricultorBusqueda = null;
     }
     
      public void grabarProduccion() {
@@ -201,10 +201,14 @@ public class ProduccionController implements Serializable{
         return results;
     }
     
+    public void editarProduccion(){
+        nomAgricultorBusqueda = produccionSelected.getAgrCodigo().getAgrApellido();
+    }
+    
     //DetalleProduccion
       public void grabarDetalleProduccion() {
         boolean resultado;
-        if (detalleProduccionSelected.getDetCodigo()== null) {
+        if (detalleProduccionSelected.getProdCodigo() == null) {
             detalleProduccionSelected.setProdCodigo(produccionSelected);
             resultado = detalleProduccionServicio.transGuardarDetalleProduccion(detalleProduccionSelected);
         } else {
@@ -223,9 +227,9 @@ public class ProduccionController implements Serializable{
     public void cancelarEdicionDetalleProduccion(boolean ocultarPanelEdicion) {
         if (ocultarPanelEdicion) {
             detalleProduccionSelected = null;
-
+            produccionSelected = null;    
         }
-        //producciones = produccionServicio.transListarProducciones();
+        producciones = produccionServicio.transListarProducciones();
     }
     
     public void nuevoDetalleProduccion(){

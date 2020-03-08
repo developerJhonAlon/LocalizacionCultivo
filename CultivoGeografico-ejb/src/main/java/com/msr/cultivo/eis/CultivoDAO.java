@@ -13,5 +13,12 @@ import java.util.List;
  * @author Jhonny
  */
 public interface CultivoDAO {
-     public List<CultivoDTO> listarCultivos();
+    
+    public List<CultivoDTO> listarCultivos();
+    
+    public boolean insertarCultivo(CultivoDTO cultivo);
+    
+    public boolean updateCultivo(CultivoDTO cultivo);
+    
+    public void eliminarCultivo(CultivoDTO cultivo);
 }

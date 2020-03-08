@@ -29,18 +29,29 @@
                     <h:panelGrid id="panelMenu" columns="1" style="border: 1px solid green; border-radius: 6px; padding: 20px">
 
                         <p:panelMenu style="width: 200px">
-                            <p:submenu label="Clientes">
-                                <p:menuitem value="Agricultor" action="/catalogos/agricultor" icon="ui-icon-disk"></p:menuitem>
-
+                            <p:submenu label="Parroquias">
+                                <p:menuitem value="Registro Parroquia" outcome="/catalogos/parroquia" icon="ui-icon-disk"></p:menuitem>
                             </p:submenu>
 
-                            <p:submenu label="Clientes">
-                                <p:menuitem value="Cultivo" action="/catalogos/cultivo" icon="ui-icon-disk"></p:menuitem>
-                                <p:menuitem value="Produccion" action="/catalogos/produccion" icon="ui-icon-disk"></p:menuitem>
-
+                            <p:submenu label="Barrios">
+                                <p:menuitem value="Registro Barrios" outcome="/catalogos/barrio" icon="ui-icon-disk"></p:menuitem>
                             </p:submenu>
 
+                            <p:submenu label="Agricultor">
+                                <p:menuitem value="Registro Agricultor" outcome="/catalogos/agricultor" icon="ui-icon-disk"></p:menuitem>
+                            </p:submenu>
 
+                            <p:submenu label="Cultivo">
+                                <p:menuitem value="Registro Cultivo" outcome="/catalogos/cultivo" icon="ui-icon-disk"></p:menuitem>
+                            </p:submenu>
+
+                            <p:submenu label="Produccion">
+                                <p:menuitem value="Registro Produccion" outcome="/catalogos/produccion" icon="ui-icon-disk"></p:menuitem>
+                            </p:submenu>
+
+                            <p:submenu label="Mapa">
+                                <p:menuitem value="Visualizar Mapa" outcome="/catalogos/mapa" icon="ui-icon-disk" ></p:menuitem>
+                            </p:submenu>
 
                         </p:panelMenu>
 
